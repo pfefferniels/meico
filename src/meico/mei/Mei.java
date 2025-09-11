@@ -2,7 +2,7 @@ package meico.mei;
 
 import meico.mpm.Mpm;
 import meico.msm.Msm;
-import meico.musicxml.MusicXml;
+// import meico.musicxml.MusicXml;  // Temporarily commented out due to JAXB issues
 import meico.supplementary.KeyValue;
 import meico.svg.SvgCollection;
 import nu.xom.*;
@@ -400,6 +400,8 @@ public class Mei extends meico.xml.XmlBase {
      * MEI expansions are resolved
      * @return
      */
+    // Temporarily commented out due to JAXB issues
+    /*
     public synchronized List<MusicXml> exportMusicXml() {
         return this.exportMusicXml(false);
     }
@@ -409,9 +411,11 @@ public class Mei extends meico.xml.XmlBase {
      * @param ignoreExpansions set this true to have a 1:1 conversion of MEI to MusicXML without the rearrangement that MEI's expansion elements produce
      * @return
      */
+    /*
     public synchronized List<MusicXml> exportMusicXml(boolean ignoreExpansions) {
         return (new Mei2MusicXmlConverter(ignoreExpansions)).convert(this);
     }
+    */
 
     /**
      * this function can be used by the application to determine the minimal time resolution (pulses per quarternote) required to represent the shortest note value (found in mei, can go down to 2048) in midi; tuplets are not considered
