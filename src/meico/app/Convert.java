@@ -61,6 +61,13 @@ public class Convert {
             }
             Msm msm = msms.get(0); // Use first movement
             
+            // Set a temporary filename for the MSM to avoid null pointer issues
+            try {
+                msm.setFile(meiFile + ".tmp.msm");
+            } catch (Exception e) {
+                // If setFile fails, continue anyway
+            }
+            
             // Load MPM file
             System.out.println("Loading MPM file: " + mpmFile);
             Mpm mpm = new Mpm(new File(mpmFile));
@@ -89,7 +96,15 @@ public class Convert {
             
             // Convert MIDI to audio
             System.out.println("Converting MIDI to audio...");
-            Audio audio = midi.exportAudio();
+            Audio audio;
+            try {
+                audio = midi.exportAudio();
+            } catch (IllegalAccessError e) {
+                System.err.println("Error: Cannot access AudioSynthesizer in Java 17+. This is a known limitation.");
+                System.err.println("The MIDI file has been successfully generated. You can convert it to audio using external tools.");
+                System.err.println("Try running with: --add-exports java.desktop/com.sun.media.sound=ALL-UNNAMED");
+                throw e;
+            }
             
             // Export as MP3
             System.out.println("Exporting as MP3: " + outputFile);
@@ -121,9 +136,14 @@ public class Convert {
         System.out.println("  output-file : Path to output MP3 file (will add .mp3 extension if missing)");
         System.out.println("  mei-id      : Optional MEI IDs to filter (all other notes will be ignored)");
         System.out.println();
+        System.out.println("Java 17+ Note:");
+        System.out.println("  If you encounter audio export errors, run with:");
+        System.out.println("  java --add-exports java.desktop/com.sun.media.sound=ALL-UNNAMED -jar convert.jar ...");
+        System.out.println();
         System.out.println("Examples:");
         System.out.println("  java -jar convert.jar input.mei performance.mpm output.mp3");
         System.out.println("  java -jar convert.jar input.mei performance.mpm output.mp3 note1 note2 chord1");
+        System.out.println("  java --add-exports java.desktop/com.sun.media.sound=ALL-UNNAMED -jar convert.jar input.mei performance.mpm output.mp3");
     }
     
     /**
