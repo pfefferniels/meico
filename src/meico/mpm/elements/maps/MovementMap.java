@@ -207,7 +207,7 @@ public class MovementMap extends GenericMap {
             if (md == null)
                 continue;
 
-            if (movementMap != null && movementIndex < (this.size() - 1)) {
+            if (movementMap != null && movementIndex < (this.size() - 1) && md.startDate >= 0) {
                 MovementMap.generateMovement(md, movementMap);
             }
         }
