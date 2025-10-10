@@ -16,7 +16,7 @@ public class MovementData {
     public double startDate = 0.0;
 
     public Double position = 0.0;
-    public Double transitionTo = 1.0;
+    public Double transitionTo = null;
     public Double endDate = null;
     public String controller = "sustain";
 
@@ -92,11 +92,9 @@ public class MovementData {
      * check whether this represents a constant dynamics instruction
      * @return
      */
-    /*
     public boolean isConstantMovement() {
-        return (this.transitionTo == null) || (this.volume == null)  || this.transitionTo.equals(this.volume);
-    }*/
-
+        return this.transitionTo == null;
+    }
 
     /**
      * For continuous dynamics transitions the dynamics curve is constructed from a cubic, S-shaped Bézier curve (P0, P1, P2, P3): _/̅
@@ -160,7 +158,7 @@ public class MovementData {
      * @return
      */
     public double getPositionAt(double date) {
-        if (date <= this.startDate) {
+        if (date <= this.startDate || (this.position == null)) {
             return this.position;
         }
         
@@ -179,6 +177,9 @@ public class MovementData {
      * @return
      */
     private double[] getDatePosition(double t) {
+        if (this.transitionTo == null)
+            return new double[] { this.startDate, this.position };
+
         double[] result = new double[2];
 
         double x1_3 = 3.0 * this.x1;
@@ -224,8 +225,10 @@ public class MovementData {
         double[] beginning = { this.startDate, this.position };
         series.add(0, beginning);
 
-        double[] end = { this.endDate, this.transitionTo };
-        series.add(end);
+        if (this.transitionTo != null) {
+            double[] end = { this.endDate, this.transitionTo };
+            series.add(end);
+        }
 
         for (double[] tuple : series) {
             tuple[1] *= 127;
