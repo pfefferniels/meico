@@ -216,7 +216,7 @@ public class TempoMap extends GenericMap {
             td.xml = e;
             td.beatLength = Double.parseDouble(beatLengthAtt.getValue());
 
-            Attribute att = Helper.getAttribute("xml:id", e);
+            Attribute att = Helper.getAttribute("id", e);
             if (att != null)
                 td.xmlId = att.getValue();
 
