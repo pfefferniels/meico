@@ -768,8 +768,6 @@ public class Msm extends AbstractMsm {
             this.parseChannelVolumeMap(part, track, exportExpressiveMidi);                                      // parse the channelVolumeTrack (only in expressive MIDI mode)
             this.parsePositionMap(part, track, exportExpressiveMidi);
 
-//            this.parsePedalMap(part, track, exportExpressiveMidi);                                            // parse pedalMap
-
             this.processScore(part, track, exportExpressiveMidi);                                               // parse score
         }
 
@@ -1116,10 +1114,10 @@ public class Msm extends AbstractMsm {
             String controller = Helper.getAttributeValue("controller", e);
             short controllerNumber = 0;
 
-            if (controller == "sustain") {
+            if ("sustain".equals(controller)) {
                 controllerNumber = EventMaker.CC_Damper_Pedal;
             }
-            else if (controller == "soft") {
+            else if ("soft".equals(controller)) {
                 controllerNumber = EventMaker.CC_Soft_Pedal;
             }
             
