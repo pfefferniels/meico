@@ -2,15 +2,11 @@ package meico.mpm.elements.maps;
 
 import meico.mei.Helper;
 import meico.mpm.Mpm;
-import meico.mpm.elements.styles.GenericStyle;
 import meico.mpm.elements.styles.MetricalAccentuationStyle;
-import meico.mpm.elements.styles.defs.AccentuationPatternDef;
 import meico.supplementary.KeyValue;
 import meico.mpm.elements.maps.data.MetricalAccentuationData;
 import nu.xom.Attribute;
 import nu.xom.Element;
-
-import java.util.ArrayList;
 
 /**
  * This class interfaces MPM's metricalAccentuationMaps
@@ -204,7 +200,7 @@ public class MetricalAccentuationMap extends GenericMap {
             md.endDate = this.getEndDate(index);                                // get the date of the subsequent accentuationPattern element
             md.xml = e;
 
-            Attribute att = Helper.getAttribute("xml:id", e);
+            Attribute att = Helper.getAttribute("id", e);
             if (att != null)
                 md.xmlId = att.getValue();
 

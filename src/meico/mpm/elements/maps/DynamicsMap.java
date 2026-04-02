@@ -280,7 +280,7 @@ public class DynamicsMap extends GenericMap {
      * @param date
      * @return
      */
-    private DynamicsData getDynamicsDataAt(double date){
+    public DynamicsData getDynamicsDataAt(double date) {
         for (int i = this.getElementIndexBeforeAt(date); i >= 0; --i) {
             DynamicsData dd = this.getDynamicsDataOf(i);
             if (dd != null)
@@ -309,7 +309,7 @@ public class DynamicsMap extends GenericMap {
             dd.endDate = this.getEndDate(index);                                        // get the date of the subsequent dynamics element
             dd.xml = e;
 
-            Attribute att = Helper.getAttribute("xml:id", e);
+            Attribute att = Helper.getAttribute("id", e);
             if (att != null)
                 dd.xmlId = att.getValue();
 

@@ -161,7 +161,7 @@ public class MovementMap extends GenericMap {
         movementData.endDate = this.getEndDate(index);
         movementData.xml = e;
 
-        Attribute att = Helper.getAttribute("xml:id", e);
+        Attribute att = Helper.getAttribute("id", e);
         if (att != null)
             movementData.xmlId = att.getValue();
 

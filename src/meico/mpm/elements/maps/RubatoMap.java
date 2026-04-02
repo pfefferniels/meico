@@ -247,7 +247,7 @@ public class RubatoMap extends GenericMap {
             // parse the other attributes
             rd.xml = e;
 
-            Attribute att = Helper.getAttribute("xml:id", e);
+            Attribute att = Helper.getAttribute("id", e);
             if (att != null)
                 rd.xmlId = att.getValue();
 
