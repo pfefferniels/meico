@@ -508,12 +508,14 @@ public class Performance extends AbstractXmlSubtree {
             if (channelVolumeMap != null) {                                                         // there could be a new map with sub-note dynamics controllers to be added to maps
                 dated.appendChild(channelVolumeMap.getXml());                                       // add it to the MSM
                 Performance.addPerformanceTimingAttributes(channelVolumeMap);                       // add the .perf attributes
+                Performance.addModifiedAttributes(channelVolumeMap);
             }
 
             GenericMap positionMap = MovementMap.renderMovementToMap(movementMap);
             if (positionMap != null) {
                 dated.appendChild(positionMap.getXml());
                 Performance.addPerformanceTimingAttributes(positionMap);
+                Performance.addModifiedAttributes(positionMap);
             }
 
             MetricalAccentuationMap.renderMetricalAccentuationToMap(score, metricalAccentuationMap, ((timeSignatureMap != null) ? timeSignatureMap : globalTimeSignatureMap), this.getPPQ());  // add metrical accentuations; we do this before the rubato transformation as this shifts the symbolic dates of the events
@@ -618,6 +620,7 @@ public class Performance extends AbstractXmlSubtree {
             if (m != null) {
                 list.add(m);
                 Performance.addPerformanceTimingAttributes(m);  // add the .perf attributes
+                Performance.addModifiedAttributes(m);
                 return m;
             }
         }
@@ -645,6 +648,15 @@ public class Performance extends AbstractXmlSubtree {
             Attribute dateEnd = Helper.getAttribute("date.end", e.getValue());
             if (dateEnd != null)
                 e.getValue().addAttribute(new Attribute("date.end.perf", dateEnd.getValue()));
+        }
+    }
+
+    private static void addModifiedAttributes(GenericMap map) {
+        if (map == null || map.isEmpty()) 
+            return;
+        
+        for (KeyValue<Double, Element> e : map.getAllElements()) {
+            e.getValue().addAttribute(new Attribute("modified", ""));
         }
     }
 

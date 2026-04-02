@@ -1242,4 +1242,39 @@ public class Helper {
         }
         return indent.toString();
     }
+
+    /**
+     * Adds a value to a space-separated string list in an attribute, but only if that value does not yet exist in that list.
+     * @param element the element containing the attribute
+     * @param attrName the name of the attribute
+     * @param value the value to add
+     */
+    public static void addToListAttribute(Element element, String attrName, String value) {
+        if (element == null || attrName == null || attrName.isEmpty() || value == null || value.isEmpty()) {
+            return;
+        }
+        
+        Attribute attr = Helper.getAttribute(attrName, element);
+        String currentValue = (attr != null) ? attr.getValue() : "";
+        
+        // Split the current value into a list of values
+        List<String> values = new ArrayList<>(Arrays.asList(currentValue.trim().split("\\s+")));
+        
+        // Remove empty strings that might result from splitting an empty or whitespace-only string
+        values.removeIf(String::isEmpty);
+        
+        // Add the new value only if it doesn't exist
+        if (!values.contains(value)) {
+            values.add(value);
+            String newValue = String.join(" ", values);
+            
+            if (attr != null) {
+                attr.setValue(newValue);
+            } else {
+                element.addAttribute(new Attribute(attrName, newValue));
+            }
+        }
+    }
+
+    
 }

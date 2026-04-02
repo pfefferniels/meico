@@ -167,10 +167,12 @@ public class ArticulationData {
         if (dateAtt != null) {          // date modifiers require the presence of a date attribute
             if (this.absoluteDelay != 0.0) {
                 dateAtt.setValue(Double.toString(Double.parseDouble(dateAtt.getValue()) + this.absoluteDelay));
+                Helper.addToListAttribute(note, "modified", this.xmlId);
                 dateChanged = true;
             }
             if (this.absoluteDelayMs != 0.0) {
                 note.addAttribute(new Attribute("articulation.absoluteDelayMs", Double.toString(this.absoluteDelayMs)));
+                Helper.addToListAttribute(note, "modified", this.xmlId);
             }
         }
 
@@ -180,22 +182,27 @@ public class ArticulationData {
             double duration = Double.parseDouble(durationAtt.getValue());
             if (this.absoluteDurationMs != null) {
                 note.addAttribute(new Attribute("articulation.absoluteDurationMs", Double.toString(this.absoluteDurationMs)));
+                Helper.addToListAttribute(note, "modified", this.xmlId);
             } else {                    // the symbolic duration changes can be ignored if an absolute milliseconds duration is specified
                 if (this.absoluteDuration != null) {
                     durationAtt.setValue(Double.toString(this.absoluteDuration));
+                    Helper.addToListAttribute(note, "modified", this.xmlId);
                 }
                 if (this.relativeDuration != 1.0) {
                     durationAtt.setValue(Double.toString(duration * this.relativeDuration));
+                    Helper.addToListAttribute(note, "modified", this.xmlId);
                 }
                 if (this.absoluteDurationChange != 0.0) {
                     double durNew = duration + this.absoluteDurationChange;
                     for (double reduce = 2.0; durNew >= 0.0; reduce *= 2.0)     // as long as the duration change causes the duration to become 0.0 or negative
                         durNew = duration + (this.absoluteDurationChange / reduce);  // reduce the change by 50%
                     durationAtt.setValue(Double.toString(durNew));
+                    Helper.addToListAttribute(note, "modified", this.xmlId);
                 }
             }
             if (this.absoluteDurationChangeMs != 0.0) {
                 note.addAttribute(new Attribute("articulation.absoluteDurationChangeMs", Double.toString(this.absoluteDurationChangeMs)));
+                Helper.addToListAttribute(note, "modified", this.xmlId);
             }
         }
 
@@ -203,20 +210,25 @@ public class ArticulationData {
         if (velocityAtt != null) {      // dynamics modifiers require the velocity attribute
             if (this.absoluteVelocity != null) {
                 velocityAtt.setValue(Double.toString(this.absoluteVelocity));
+                Helper.addToListAttribute(note, "modified", this.xmlId);
             }
             if (this.relativeVelocity != 1.0) {
                 velocityAtt.setValue(Double.toString(Double.parseDouble(velocityAtt.getValue()) * this.relativeVelocity));
+                Helper.addToListAttribute(note, "modified", this.xmlId);
             }
             if (this.absoluteVelocityChange != 0.0) {
                 velocityAtt.setValue(Double.toString(Double.parseDouble(velocityAtt.getValue()) + this.absoluteVelocityChange));
+                Helper.addToListAttribute(note, "modified", this.xmlId);
             }
         }
 
         if (this.detuneCents != 0.0) {
             note.addAttribute(new Attribute("detuneCents", Double.toString(this.detuneCents)));
+            Helper.addToListAttribute(note, "modified", this.xmlId);
         }
         if (this.detuneHz != 0.0) {
             note.addAttribute(new Attribute("detuneHz", Double.toString(this.detuneHz)));
+            Helper.addToListAttribute(note, "modified", this.xmlId);
         }
 
         return dateChanged;

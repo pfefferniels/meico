@@ -123,8 +123,10 @@ public class AsynchronyMap extends GenericMap {
         ArrayList<KeyValue<Double, Element>> done = new ArrayList<>();
 
         for (int asynIndex = 0; asynIndex < this.size(); ++asynIndex) {                                 // traverse the asynchronyMap elements
+            Element asynElement = this.getElement(asynIndex);
+            String xmlId = Helper.getAttributeValue("xml:id", asynElement);
             double asynEndDate = (asynIndex < (this.elements.size() - 1)) ? this.elements.get(asynIndex + 1).getKey() : Double.MAX_VALUE;   // get the date of the subsequent asynchrony element or (if we are at the last element) get the largest possible value
-            double offset = Double.parseDouble(Helper.getAttributeValue("milliseconds.offset", this.getElement(asynIndex)));            // get the offset
+            double offset = Double.parseDouble(Helper.getAttributeValue("milliseconds.offset", asynElement));            // get the offset
 
             for (int mapIndex = 0; mapIndex < mapEntries.size(); ++mapIndex) {                          // traverse the (remaining) map elements
                 KeyValue<Double, Element> mapEntry = mapEntries.get(mapIndex);                          // get the current map entry
@@ -139,6 +141,7 @@ public class AsynchronyMap extends GenericMap {
                     if (att != null) {                                                                  // if we have an attribute date
                         startDateMs = Math.max(0.0, Double.parseDouble(att.getValue()) + offset);       // parse the attribute value to double and add the offset; but do not allow negative timing
                         att.setValue(Double.toString(startDateMs));                                     // write the updated value to the attribute
+                        Helper.addToListAttribute(mapEntry.getValue(), "modified", xmlId);
                     }
                 }
 
@@ -158,6 +161,7 @@ public class AsynchronyMap extends GenericMap {
                     if (att != null) {                                                                  // if we have said attribute
                         double ms = Double.parseDouble(att.getValue()) + offset;                        // parse the attribute value to double and add the offset
                         att.setValue(Double.toString(Math.max(ms, startDateMs+1)));                      // write the updated value to the attribute; however, we do not shift the end date before the start date; in that case we set it to the start date + 1ms
+                        Helper.addToListAttribute(mapEntry.getValue(), "modified", xmlId);
                     }
                 }
 
