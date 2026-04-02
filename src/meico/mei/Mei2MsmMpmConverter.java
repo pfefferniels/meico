@@ -418,8 +418,8 @@ public class Mei2MsmMpmConverter {
                     break;
 
                 case "note":
-                    if (e.getAttribute("grace") != null)                        // TODO: at the moment we ignore grace notes and grace chords; later on, for expressive performances, we should handle these somehow
-                        continue;
+                    // if (e.getAttribute("grace") != null)                        // TODO: at the moment we ignore grace notes and grace chords; later on, for expressive performances, we should handle these somehow
+                    //     continue;
                     this.processNote(e);
                     continue;                                                   // no need to go deeper as any child of this tag is already processed
 
@@ -3376,7 +3376,7 @@ public class Mei2MsmMpmConverter {
 
         // compute midi duration
         double dur = this.computeDuration(note);                         // compute note duration in midi ticks
-        if (dur == 0.0) return;                                                 // if failed, cancel
+        // if (dur == 0.0) return;                                                 // if failed, cancel
         s.addAttribute(new Attribute("duration", Double.toString(dur)));
 
         // draw currentDate counter
@@ -3878,6 +3878,10 @@ public class Mei2MsmMpmConverter {
                 && !ofThis.getLocalName().equals("rest")
                 && !ofThis.getLocalName().equals("tuplet")
                 && !ofThis.getLocalName().equals("space"))) {       // if none of these
+            return 0.0;                                             // return 0.0
+        }
+
+        if (ofThis.getAttribute("grace") != null) {                // if this is a grace note
             return 0.0;                                             // return 0.0
         }
 

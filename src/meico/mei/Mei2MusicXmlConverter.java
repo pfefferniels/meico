@@ -1042,8 +1042,8 @@ public class Mei2MusicXmlConverter {
                     break;
 
                 case "note":
-                    if (e.getAttribute("grace") != null)                        // TODO: at the moment we ignore grace notes and grace chords; later on, for expressive performances, we should handle these somehow
-                        continue;
+                    // if (e.getAttribute("grace") != null)                        // TODO: at the moment we ignore grace notes and grace chords; later on, for expressive performances, we should handle these somehow
+                    //     continue;
                     this.processNote(e);
                     break;                                                   // no need to go deeper as any child of this tag is already processed
 
