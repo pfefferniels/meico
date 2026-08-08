@@ -117,6 +117,9 @@ public class MovementMap extends GenericMap {
             e.addAttribute(new Attribute("protraction", Double.toString(data.protraction)));
         }
 
+        if (data.controller != null)
+            e.addAttribute(new Attribute("controller", data.controller));
+
         if (data.xmlId != null)
             e.addAttribute(new Attribute("xml:id", "http://www.w3.org/XML/1998/namespace", data.xmlId));
 
@@ -176,6 +179,18 @@ public class MovementMap extends GenericMap {
             movementData.transitionTo = Double.parseDouble(att.getValue());
         }
 
+        att = Helper.getAttribute("curvature", e);
+        if (att != null)
+            movementData.curvature = Double.parseDouble(att.getValue());
+
+        att = Helper.getAttribute("protraction", e);
+        if (att != null)
+            movementData.protraction = Double.parseDouble(att.getValue());
+
+        att = Helper.getAttribute("controller", e);
+        if (att != null)
+            movementData.controller = att.getValue();
+
         return movementData;
     }
 
@@ -229,8 +244,15 @@ public class MovementMap extends GenericMap {
      * @param movementData
      * @param channelVolumeMap
      */
+    /**
+     * Maximum value step between sampled position events (normalized 0..1 units).
+     * 0.1 is the historic default; larger values (e.g. 0.03 in 0..1 space is ~4 CC
+     * steps) drastically reduce event counts and rendering cost for long ramps.
+     */
+    public static double movementSampleMaxStep = 0.1;
+
     private static void generateMovement(MovementData movementData, GenericMap movementMap) {
-        ArrayList<double[]> movementSegment = movementData.getMovementSegment(0.1);
+        ArrayList<double[]> movementSegment = movementData.getMovementSegment(movementSampleMaxStep);
 
         for (double[] event : movementSegment) {
             Element e = new Element("position", movementMap.getXml().getNamespaceURI());

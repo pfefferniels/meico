@@ -61,9 +61,9 @@ public class MovementData {
         if (id != null)
             this.xmlId = id.getValue();
 
-        Attribute controller = xml.getAttribute("controller", "http://www.w3.org/XML/1998/namespace");
-        if (controller != null)
-            this.xmlId = controller.getValue();
+        Attribute controllerAtt = xml.getAttribute("controller");
+        if (controllerAtt != null)
+            this.controller = controllerAtt.getValue();
     }
 
     /**
