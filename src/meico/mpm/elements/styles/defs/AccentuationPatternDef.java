@@ -314,8 +314,8 @@ public class AccentuationPatternDef extends AbstractDef {
             if (beatPosition == accentuation[0])                                        // if the beatPosition is exactly at the accentuation's position
                 return accentuation[1];                                                 // return its value
             if (beatPosition > accentuation[0]) {                                       // beatPosition is between two accentuations or after the last one
-                if (i > (this.accentuations.size() - 1))                                // if it is between two accentuations
-                    segmentEnd = this.accentuations.get(i+1).getKey()[0];               // store the beate position of the subsequent accentuation (which marks the end date of this accentuation segment)
+                if (i < (this.accentuations.size() - 1))                                // if it is between two accentuations
+                    segmentEnd = this.accentuations.get(i+1).getKey()[0];               // store the beat position of the subsequent accentuation (which marks the end date of this accentuation segment)
                 break;                                                                  // found all required information
             }
         }
