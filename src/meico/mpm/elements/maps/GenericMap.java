@@ -12,7 +12,6 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -155,8 +154,10 @@ public class GenericMap extends AbstractXmlSubtree {
             for (int j = i-1; (j >= 0) && (e.getKey() < this.elements.get(j).getKey()); --j)
                 moveToIndex = j;
 
-            if (moveToIndex != i)
-                Collections.swap(this.elements, i, moveToIndex);    // side note i must be >0
+            if (moveToIndex != i) {                                 // shift, do not swap: a swap strands the elements between moveToIndex and i out of order
+                this.elements.remove(i);
+                this.elements.add(moveToIndex, e);
+            }
         }
 
         this.sortXml();
