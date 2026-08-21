@@ -1148,11 +1148,11 @@ public class Msm extends AbstractMsm {
             for (Element a = e.getFirstChildElement("accidental"); a != null; a = Helper.getNextSiblingElement("accidental", a)) {  // count the accidentals (-=flats +=sharps)
                 if (a.getAttribute("value") != null) {
                     double value = Double.parseDouble(a.getAttributeValue("value"));
-                    if (value > 1.0) {
+                    if (value > 0) {                                                            // a sharp; the threshold was 1.0, which a sharp (exactly 1.0) never passed
                         accids++;
                         continue;
                     }
-                    if (value < 1.0) {
+                    if (value < 0) {                                                            // a flat
                         accids--;
                     }
                 }
