@@ -37,7 +37,7 @@ public class Goto {
 
         if (targetId != null) {
             if (targetId.startsWith("#"))
-                targetId = targetId.substring(1, targetId.length() - 1);
+                targetId = targetId.substring(1);
             this.targetId = targetId;
         }
     }
