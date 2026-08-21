@@ -124,7 +124,7 @@ public class AsynchronyMap extends GenericMap {
 
         for (int asynIndex = 0; asynIndex < this.size(); ++asynIndex) {                                 // traverse the asynchronyMap elements
             Element asynElement = this.getElement(asynIndex);
-            String xmlId = Helper.getAttributeValue("xml:id", asynElement);
+            String xmlId = Helper.getAttributeValue("id", asynElement);    // "id", not "xml:id" — see Msm.exportMidi; this always returned "" and @modified recorded nothing
             double asynEndDate = (asynIndex < (this.elements.size() - 1)) ? this.elements.get(asynIndex + 1).getKey() : Double.MAX_VALUE;   // get the date of the subsequent asynchrony element or (if we are at the last element) get the largest possible value
             double offset = Double.parseDouble(Helper.getAttributeValue("milliseconds.offset", asynElement));            // get the offset
 

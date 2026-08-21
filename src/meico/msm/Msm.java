@@ -1030,7 +1030,7 @@ public class Msm extends AbstractMsm {
                 track.add(EventMaker.createNoteOff(chan, dateEnd, pitch, 0));
             } else {
                 long date = Math.round(Double.parseDouble(Helper.getAttributeValue("date", n)));
-                String xmlId = Helper.getAttributeValue("xml:id", n);
+                String xmlId = Helper.getAttributeValue("id", n);   // "id", not "xml:id": Helper.getAttribute matches a LOCAL name, so "xml:id" misses all three of its lookups and this always returned ""
                 track.add(EventMaker.createTextEvent(date, xmlId));
                 track.add(EventMaker.createNoteOn(chan, date, pitch, 100));
 
