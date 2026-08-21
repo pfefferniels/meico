@@ -290,7 +290,7 @@ public class ArticulationMap extends GenericMap {
         ad.xml = e;
         ad.date = this.elements.get(index).getKey();
 
-        Attribute att = Helper.getAttribute("xml:id", e);
+        Attribute att = Helper.getAttribute("id", e);
         if (att != null)
             ad.xmlId = att.getValue();
 
